@@ -1,0 +1,19 @@
+version: 2.1
+
+defaults: &defaults
+  docker:
+    - image: cimg/base:2021.04
+
+jobs:
+  deploy:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: deploy
+          command: echo deploy
+
+workflows:
+  deploy:
+    jobs:
+      - deploy
