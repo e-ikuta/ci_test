@@ -33,7 +33,7 @@ workflows:
       - build:
           filters:
             tags:
-              only: /release/
+              only: /^release_[0-9]+$/
       - deploy_to_stg:
           requires:
             - build
@@ -42,6 +42,6 @@ workflows:
             - build
           filters:
             tags:
-              only: /release/
+              only: /^release_[0-9]+$/
             branches:
               ignore: /.*/
