@@ -5,6 +5,13 @@ defaults: &defaults
     - image: cimg/base:2021.04
 
 jobs:
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: build
+          command: echo build
   deploy_to_stg:
     <<: *defaults
     steps:
@@ -23,8 +30,16 @@ jobs:
 workflows:
   deploy:
     jobs:
-      - deploy_to_stg
+      - build:
+          filters:
+            tags:
+              only: /release/
+      - deploy_to_stg:
+          requires:
+            - build
       - deploy_to_prd:
+          requires:
+            - build
           filters:
             tags:
               only: /release/
