@@ -5,15 +5,28 @@ defaults: &defaults
     - image: cimg/base:2021.04
 
 jobs:
-  deploy:
+  deploy_to_stg:
     <<: *defaults
     steps:
       - checkout
       - run:
           name: deploy
-          command: echo deploy
+          command: echo deploy to stg
+  deploy_to_prd:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: deploy
+          command: echo deploy to prd
 
 workflows:
   deploy:
     jobs:
-      - deploy
+      - deploy_to_stg
+      - deploy_to_prd:
+          filters:
+            tags:
+              only: /release/
+            branches:
+              ignore: /.*/
