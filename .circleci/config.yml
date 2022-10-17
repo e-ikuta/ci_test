@@ -4,11 +4,19 @@ defaults: &defaults
   docker:
     - image: cimg/base:2021.04
 
+commands:
+  set_env:
+    steps:
+      - run:
+          name: set environment
+          command: . .circleci/set_env.sh
+
 jobs:
   build:
     <<: *defaults
     steps:
       - checkout
+      - set_env
       - run:
           name: build
           command: echo build CIRCLE_TAG ${CIRCLE_TAG}
@@ -16,6 +24,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - set_env
       - run:
           name: deploy
           command: echo deploy to stg CIRCLE_TAG ${CIRCLE_TAG}
@@ -23,6 +32,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - set_env
       - run:
           name: deploy
           command: echo deploy to prd CIRCLE_TAG ${CIRCLE_TAG}
