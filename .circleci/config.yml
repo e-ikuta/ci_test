@@ -11,21 +11,21 @@ jobs:
       - checkout
       - run:
           name: build
-          command: echo build
+          command: echo build CIRCLE_TAG ${CIRCLE_TAG}
   deploy_to_stg:
     <<: *defaults
     steps:
       - checkout
       - run:
           name: deploy
-          command: echo deploy to stg
+          command: echo deploy to stg CIRCLE_TAG ${CIRCLE_TAG}
   deploy_to_prd:
     <<: *defaults
     steps:
       - checkout
       - run:
           name: deploy
-          command: echo deploy to prd
+          command: echo deploy to prd CIRCLE_TAG ${CIRCLE_TAG}
 
 workflows:
   deploy:
