@@ -3,7 +3,7 @@ set -e
 
 echo setting env
 case "${CIRCLE_TAG}" in
-  release_[0-9]+)
+  release)
     echo deploying with tag push
     ;;
 esac
