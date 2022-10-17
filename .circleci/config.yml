@@ -35,7 +35,7 @@ jobs:
       - set_env
       - run:
           name: deploy
-          command: echo deploy to prd CIRCLE_TAG ${CIRCLE_TAG}
+          command: echo deploy to prd CIRCLE_TAG ${CIRCLE_TAG} CIRCLE_BRANCH ${CIRCLE_BRANCH}
 
 workflows:
   deploy:
