@@ -37,9 +37,18 @@ workflows:
       - deploy_to_stg:
           requires:
             - build
+      - approval:
+           type: approval
+           requires:
+             - build
+           filters:
+             tags:
+               only: /^release_[0-9]+$/
+             branches:
+               ignore: /.*/
       - deploy_to_prd:
           requires:
-            - build
+            - approval
           filters:
             tags:
               only: /^release_[0-9]+$/
