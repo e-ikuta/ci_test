@@ -19,23 +19,15 @@ jobs:
       - set_env
       - run:
           name: build
-          command: echo build CIRCLE_TAG ${CIRCLE_TAG} CIRCLE_BRANCH ${CIRCLE_BRANCH}
-  deploy_to_stg:
+          command: echo CIRCLE_TAG ${CIRCLE_TAG} CIRCLE_BRANCH ${CIRCLE_BRANCH}
+  deploy:
     <<: *defaults
     steps:
       - checkout
       - set_env
       - run:
           name: deploy
-          command: echo deploy to stg CIRCLE_TAG ${CIRCLE_TAG} CIRCLE_BRANCH ${CIRCLE_BRANCH}
-  deploy_to_prd:
-    <<: *defaults
-    steps:
-      - checkout
-      - set_env
-      - run:
-          name: deploy
-          command: echo deploy to prd CIRCLE_TAG ${CIRCLE_TAG} CIRCLE_BRANCH ${CIRCLE_BRANCH}
+          command: echo CIRCLE_TAG ${CIRCLE_TAG} CIRCLE_BRANCH ${CIRCLE_BRANCH}
 
 workflows:
   deploy:
@@ -44,9 +36,6 @@ workflows:
           filters:
             tags:
               only: /^release_[0-9]+$/
-      - deploy_to_stg:
-          requires:
-            - build
       - approval:
            type: approval
            requires:
@@ -56,11 +45,10 @@ workflows:
                only: /^release_[0-9]+$/
              branches:
                ignore: /.*/
-      - deploy_to_prd:
+      - deploy:
           requires:
+            - build
             - approval
           filters:
             tags:
               only: /^release_[0-9]+$/
-            branches:
-              ignore: /.*/
